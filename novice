@@ -1,0 +1,64 @@
+
+class Product {
+  String name;
+  int price;
+
+  Product(this.name, this.price);
+}
+
+void main() {
+  List<Product> products = [
+    Product("셔츠", 45000),
+    Product("원피스", 30000),
+    Product("반팔티", 35000),
+    Product("반바지", 38000),
+    Product("양말", 5000)
+  ];
+
+  int totalPrice = 0;
+  bool running = true;
+
+  while (running) {
+    print("\n1. 상품 목록 보기");
+    print("2. 장바구니에 상품 담기");
+    print("3. 총 가격 보기");
+    print("4. 종료");
+    print("번호를 입력하세요:");
+    String? input = stdin.readLineSync();
+
+    if (input == "1") {
+      for (var p in products) {
+        print(p.name + " / " + p.price.toString() + "원");
+      }
+    } else if (input == "2") {
+      print("상품 이름 입력:");
+      String? name = stdin.readLineSync();
+      print("개수 입력:");
+      String? qtyStr = stdin.readLineSync();
+      int? qty = int.tryParse(qtyStr ?? "");
+
+      if (qty == null || qty <= 0) {
+        print("올바른 개수를 입력하세요!");
+        continue;
+      }
+
+      bool found = false;
+      for (var p in products) {
+        if (p.name == name) {
+          totalPrice += p.price * qty;
+          print("장바구니에 추가됨!");
+          found = true;
+          break;
+        }
+      }
+      if (!found) print("상품이 없습니다!");
+    } else if (input == "3") {
+      print("장바구니 총 가격: " + totalPrice.toString() + "원");
+    } else if (input == "4") {
+      print("쇼핑 종료!");
+      running = false;
+    } else {
+      print("잘못된 입력!");
+    }
+  }
+}
